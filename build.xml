@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<project name="ant-study" default="main" basedir=".">
+	<property name="src.dir" location="src" />
+	<property name="build.dir" location="bin" />
+	<property name="dist.dir" location="dist" />
+	<property name="lib.dir" location="lib" />
+	
+	<target name="clean">
+		<delete dir="${build.dir}"></delete>
+		<delete dir="${lib.dir}"></delete>
+		<delete dir="${dist.dir}"></delete>
+	</target>
+	
+	<target name="makedir">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${lib.dir}" />
+		<mkdir dir="${dist.dir}" />
+	</target>
+	
+	<target name="compile" depends="clean, makedir">
+		<javac srcdir="${src.dir}" destdir="${build.dir}">
+		</javac>
+	</target>
+	
+	<target name="docs" depends="compile">
+		<javadoc packagenames="src" sourcepath="${src.dir}" destdir="${dist.dir}">
+			<fileset dir="${src.dir}">
+				<include name="**" />
+			</fileset>
+		</javadoc>
+	</target>
+	
+	<target name="jar" depends="compile">
+		<jar destfile="${dist.dir}/com.java.ant.networking.socket.jar" basedir="${build.dir}">
+			<manifest>
+				<attribute name="Main-class" value="com.java.ant.test.SocketTest"/>
+			</manifest>
+		</jar>
+	</target>
+		
+	<target name="main" depends="compile, docs">
+		<description>Default target</description>
+	</target>
+</project>
